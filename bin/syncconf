@@ -1,0 +1,5 @@
+#!/bin/sh -eu
+
+cd $CMD_REPO_DIR
+git pull --rebase
+git push origin master
