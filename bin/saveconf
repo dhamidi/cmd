@@ -1,6 +1,5 @@
 #!/bin/sh -eu
 
 cd $CMD_REPO_DIR
-git diff
 git add bin shellrc
 git commit
