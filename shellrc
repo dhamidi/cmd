@@ -2,6 +2,7 @@
 if [ -z "$HOME" ]; then
 	. /etc/profile
 	HOME=/home/$USER
+	export HOME
 fi
 
 set -a
