@@ -1,0 +1,2 @@
+#!/bin/sh
+tail -n +2|xargs -r -L 1 basename|tr '\n' ' ' |sed 's/ $//'

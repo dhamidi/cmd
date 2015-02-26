@@ -1,0 +1,12 @@
+#!/bin/sh
+TMPGOFILE=$(mktemp)
+
+if [ -e ./.goenv ]; then
+	. ./.goenv
+fi
+
+if goimports $1 > $TMPGOFILE; then
+	mv $TMPGOFILE "$1"
+else
+	less $TMPGOFILE
+fi

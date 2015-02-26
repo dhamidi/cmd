@@ -1,0 +1,4 @@
+#!/bin/sh -eux
+
+CMD=$CMD_BIN_DIR/$1
+[ -e $CMD ] && unlink $CMD

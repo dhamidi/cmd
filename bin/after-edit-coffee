@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ -z "$DO_NOT_RUN_GRUNT" ]; then
+	for f in Gruntfile*; do
+	  if [ -e "$f" ]; then
+	    gb
+	    break
+	  fi
+	done
+fi

@@ -1,0 +1,49 @@
+# Set up pristine system environment
+if [ -z "$HOME" ]; then
+	. /etc/profile
+	HOME=/home/$USER
+fi
+
+set -a
+
+CMD_REPO_DIR=$HOME/cmd
+CMD_BIN_DIR=$CMD_REPO_DIR/bin
+
+# Basically always running under tmux
+TERM=screen-256color 
+
+SHELL_RC_FILE=$CMD_REPO_DIR/shellrc
+SHELL=$CMD_BIN_DIR/shell
+
+GOPATH=$HOME/code/go
+GOROOT=/usr/local/go
+DISPLAY=:0
+EDITOR=nvi
+BROWSER=firefox
+PATH=$CMD_BIN_DIR:$HOME/local/bin:$GOPATH/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin/:/bin
+PS1='\t \u@\h \W[$(dirs -p | prompt-dirstack)] $(git prompt) \n\$ '
+
+# Must be a shell function in order to be able to reload the configuration
+# file.
+editconf() {
+	edit $SHELL_RC_FILE && {
+		set -x
+		. $SHELL_RC_FILE
+		set +x
+	}
+}
+
+# Swap current working directory with top of dirstack
+sd() {
+	local tos=$(dirs -l -p +1)
+	local cwd=$(pwd)
+	popd 2>&1 >/dev/null
+	cd "$cwd"
+	pushd "$tos" 2>&1 >/dev/null
+}
+
+# Interactively select job to put back into foreground
+j() {
+	local job="$(jobs | tmenu | awk '{print $1}' | tr -c -d '[:space:][:digit:]')"
+	fg $job
+}

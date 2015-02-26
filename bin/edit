@@ -1,0 +1,13 @@
+#!/bin/sh
+
+FILENAME=$1
+EXTENSION=$(basename $FILENAME)
+EXTENSION=${EXTENSION##*.}
+
+$EDITOR "$FILENAME"
+
+if [ -n "$EXTENSION" ]; then
+	if command -v after-edit-$EXTENSION 2>&1 >/dev/null; then
+	  after-edit-$EXTENSION "$FILENAME"
+	fi
+fi

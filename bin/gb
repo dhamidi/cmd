@@ -1,0 +1,4 @@
+#!/bin/sh
+
+[ -e .tmp/scripts/templates.js ] && rm .tmp/scripts/templates.js
+grunt build

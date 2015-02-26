@@ -1,0 +1,10 @@
+#!/bin/sh
+
+CMD=$CMD_BIN_DIR/"$1" 
+
+if ! [ -e $CMD ]; then
+	printf "#!/bin/sh -eu\n" > $CMD 
+fi
+
+edit $CMD && 
+chmod +x $CMD
