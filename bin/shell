@@ -1,2 +1,5 @@
 #!/bin/sh
-exec env -i /bin/bash --rcfile $HOME/cmd/shellrc "$@"
+
+exec env -i \
+  BASH_ENV=$HOME/cmd/shellrc \
+  /bin/bash --rcfile $HOME/cmd/shellrc "$@"
