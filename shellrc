@@ -22,7 +22,7 @@ DISPLAY=:0
 EDITOR=nvi
 BROWSER=firefox
 PATH=$CMD_BIN_DIR:$HOME/local/bin:$GOPATH/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin/:/bin
-PS1='\t \u@\h \W[$(dirs -p | prompt-dirstack)] $(git prompt) \n\$ '
+PS1='\t \u@\h \W[$(dirs -p | prompt-dirstack)] %\j $(git prompt) \n\$ '
 
 # Must be a shell function in order to be able to reload the configuration
 # file.
