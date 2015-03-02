@@ -1,12 +1,20 @@
-#!/bin/sh
+#!/bin/sh -eu
+LINE=""
+while getopts n: OPT; do
+	case "$OPT" in
+		n)
+			LINE="+$OPTARG"
+			;;
+	esac
+done
+shift $((OPTIND - 1))
 
 FILENAME=$1
-EXTENSION=$(basename $FILENAME)
-EXTENSION=${EXTENSION##*.}
+BASENAME=$(basename $FILENAME)
+EXTENSION=${BASENAME##*.}
+$EDITOR $LINE "$FILENAME"
 
-$EDITOR "$FILENAME"
-
-if [ -n "$EXTENSION" ]; then
+if [ -n "$EXTENSION" ] && [ "$EXTENSION" != "$BASENAME" ]; then
 	if command -v after-edit-$EXTENSION 2>&1 >/dev/null; then
 	  after-edit-$EXTENSION "$FILENAME"
 	fi
