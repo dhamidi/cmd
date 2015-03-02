@@ -1,0 +1,6 @@
+#!/bin/sh -eu
+SEARCH_TERM=$1
+
+edit $(git grep -n "$SEARCH_TERM" | 
+	tmenu -l $((LINES / 10 + 1)) |
+	awk -F: '{print "-n" " " $2 " " $1}')
