@@ -1,0 +1,4 @@
+#!/bin/sh -eu
+
+BRANCH_NAME=$(git rev-parse --symbolic --branches | tmenu)
+git checkout "$BRANCH_NAME"
