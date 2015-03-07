@@ -1,0 +1,6 @@
+#!/bin/sh -eua
+if [ -e ./.goenv ]; then
+	. ./.goenv
+fi
+
+goimports "$@"
