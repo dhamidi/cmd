@@ -24,6 +24,12 @@ BROWSER=firefox
 PATH=$CMD_BIN_DIR:$HOME/local/bin:$GOPATH/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin/:/bin
 PS1='\t \u@\h \W[$(dirs -p | prompt-dirstack)] %\j $(git prompt) \n\$ '
 
+# Shell options
+shopt -s globstar  # glob recursively with **
+shopt -s nullglob  # fail if globs don't match any files
+shopt -s extglob   # ! negate, @ one, * zero-or-more
+shopt -s autocd    # never type cd again
+
 # Must be a shell function in order to be able to reload the configuration
 # file.
 editconf() {
