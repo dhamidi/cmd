@@ -1,0 +1,4 @@
+#!/bin/sh -eu
+
+rsync -avuz sync:sync/ ~/sync/
+rsync -avz ~/sync/ sync:sync/
