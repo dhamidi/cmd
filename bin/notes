@@ -1,0 +1,18 @@
+#!/bin/sh -eu
+
+notes_dir() {
+	for dir in .notes tmp .git; do
+		if [ -d $dir ]; then
+			printf "%s\n" "$dir"
+			return 0
+		fi
+	done
+
+	mkdir .notes && printf ".notes\n"
+}
+
+notes_file() {
+	printf "%s\n" "${1:-notes}"
+}
+
+edit $(notes_dir)/$(notes_file "$1")
