@@ -30,6 +30,9 @@ shopt -s nullglob  # fail if globs don't match any files
 shopt -s extglob   # ! negate, @ one, * zero-or-more
 shopt -s autocd    # never type cd again
 
+# One set of keybindings everywhere!
+set -o vi
+
 # Must be a shell function in order to be able to reload the configuration
 # file.
 editconf() {
