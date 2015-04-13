@@ -1,0 +1,16 @@
+#!/bin/sh -eu
+
+git_add_args='-v'
+for arg in "$@"; do
+	case "$arg" in
+		-*)
+			git_add_args="$git_add_args $arg"
+			;;
+		*)
+			git_add_args="$git_add_args *$arg"
+			;;
+	esac
+done
+
+# Fuzzily add files to git, useful when resolving merge conflicts.
+git add $git_add_args
