@@ -1,0 +1,6 @@
+#!/bin/bash -eu
+
+# View file in project
+
+shopt -s globstar
+less **/$1
