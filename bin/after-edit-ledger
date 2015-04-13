@@ -6,4 +6,4 @@ trap '[ -e $TMP_LEDGER_FILE ] && rm $TMP_LEDGER_FILE' EXIT
 ledger -f "$1" print > $TMP_LEDGER_FILE &&
 mv $TMP_LEDGER_FILE "$1"
 
-ledger -f "$1" bal
+ledger -f "$1" cleared

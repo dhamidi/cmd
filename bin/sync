@@ -2,3 +2,9 @@
 
 rsync -avuz sync:sync/ ~/sync/
 rsync -avz ~/sync/ sync:sync/
+
+if [ -e ~/accounting ]; then
+	cd ~/accounting
+	git pull --rebase &&
+	git push
+fi
