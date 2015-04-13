@@ -1,5 +1,5 @@
 #!/bin/sh
-
+untabify "$1"
 if [ -z "$DO_NOT_RUN_GRUNT" ]; then
 	for f in Gruntfile*; do
 	  if [ -e "$f" ]; then

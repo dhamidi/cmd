@@ -1,4 +1,9 @@
 #!/bin/sh
+
+if ! [ -e "$1" ]; then
+	exit 0
+fi
+
 TMPGOFILE=$(mktemp)
 
 if [ -e ./.goenv ]; then
