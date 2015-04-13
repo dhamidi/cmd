@@ -1,0 +1,27 @@
+#!/bin/sh -eux
+
+PASSWORD_DIR=${PASSWORD_DIR:-$HOME/sync/password}
+
+case $1 in
+	list)
+		ls -1 $PASSWORD_DIR | sed 's!\.gpg.*$!!'
+		;;
+	show)
+		PASSWORD_FILE=$PASSWORD_DIR/$2.gpg
+		gpg -d "$PASSWORD_FILE"
+		;;
+	edit)
+		PASSWORD_FILE=$PASSWORD_DIR/$2.gpg
+		PASSWORD_DRAFT=$PASSWORD_DIR/$2
+		if [ -e "$PASSWORD_FILE" ]; then
+			gpg -d "$PASSWORD_FILE" > "$PASSWORD_DRAFT"
+		else
+			pwgen > "$PASSWORD_DRAFT"
+		fi
+		edit "$PASSWORD_DRAFT"
+		if [ -e "$PASSWORD_DRAFT" ]; then
+			gpg --default-recipient-self -e "$PASSWORD_DRAFT" &&
+			rm "$PASSWORD_DRAFT"
+		fi
+		;;
+esac
