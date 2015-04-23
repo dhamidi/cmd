@@ -1,0 +1,6 @@
+#!/bin/sh -eu
+
+NOW=$(date +"%F %H:%M:%S")
+
+printf "  NOTE %s\n" "$NOW"
+sed -e "s!^!    !"

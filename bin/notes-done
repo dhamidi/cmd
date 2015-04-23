@@ -1,0 +1,4 @@
+#!/bin/sh -eu
+NOW=$(date +"%F %H:%M:%S")
+
+sed -e "s!TODO!DONE $NOW!"
