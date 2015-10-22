@@ -1,0 +1,3 @@
+#!/bin/sh -u
+
+while :; do w ssh harrow "cd /harrow/api; make t m=$1 t=${2:-.}"; done

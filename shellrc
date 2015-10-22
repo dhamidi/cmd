@@ -1,3 +1,6 @@
+#!/bin/bash
+# -*- mode: sh; sh-basic-offset: 8; -*-
+
 # Set up pristine system environment
 if [ -z "$HOME" ]; then
 	. /etc/profile
@@ -11,7 +14,7 @@ CMD_REPO_DIR=$HOME/cmd
 CMD_BIN_DIR=$CMD_REPO_DIR/bin
 
 # Basically always running under tmux
-TERM=screen-256color 
+TERM=screen-256color
 
 SHELL_RC_FILE=$CMD_REPO_DIR/shellrc
 SHELL=$CMD_BIN_DIR/shell
@@ -19,7 +22,7 @@ SHELL=$CMD_BIN_DIR/shell
 GOPATH=$HOME/code/go
 GOROOT=/usr/local/go
 DISPLAY=:0
-EDITOR=nvi
+EDITOR='emacs -nw'
 BROWSER=firefox
 PATH=$CMD_BIN_DIR:$HOME/local/bin:$GOPATH/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin/:/bin
 PS1='\t \u@\h \W[$(dirs -p | prompt-dirstack)] %\j $(git prompt) \n\$ '
@@ -29,9 +32,6 @@ shopt -s globstar  # glob recursively with **
 shopt -s nullglob  # fail if globs don't match any files
 shopt -s extglob   # ! negate, @ one, * zero-or-more
 shopt -s autocd    # never type cd again
-
-# One set of keybindings everywhere!
-set -o vi
 
 # Must be a shell function in order to be able to reload the configuration
 # file.
@@ -57,3 +57,51 @@ j() {
 	local job="$(jobs | tmenu | awk '{print $1}' | tr -c -d '[:space:][:digit:]')"
 	fg $job
 }
+
+# Select one of the arguments with fuzzy completion
+completing_read() {
+        printf "%s\n" "$@" | tmenu
+}
+
+# Select GOPATH
+gopath() {
+        local path=$(completing_read ~/projects/harrow ~/code/go)
+	remove_gopath_bin
+	if [ -d "$path" ]; then
+	        GOPATH=$path
+		add_gopath_bin
+	else
+		printf "No such directory: %s\n" "$path" >&2
+		return 1
+	fi
+}
+
+remove_gopath_bin() {
+	PATH=$(tr : "\n" <<< "$PATH" | grep -v $GOPATH/bin | tr "\n" :)
+}
+
+add_gopath_bin() {
+	PATH=$GOPATH/bin:$PATH
+}
+
+# Open go project
+gp() {
+        cd ~/code/go/src/$(go list github.com/dhamidi/... | tmenu)
+}
+
+harrow() {
+        local subproject
+        if [ -n "$1" ]; then
+            subproject=~/projects/harrow/$1
+        else
+            subproject=$(printf "%s\n" ~/projects/harrow/* | tmenu -l 5)
+        fi
+
+        case $subproject in
+                */api)
+                        GOPATH=~/projects/harrow
+        esac
+
+	cd $subproject
+}
+alias hrw=harrow

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+setup_tmux() {
+    tmux new-session -d -s api 'hrw api'
+    tmux new-session -d -s fe  'hrw frontend'
+    tmux new-session -d -s puppet 'hrw puppet'
+}
+
+setup_tmux

@@ -1,0 +1,17 @@
+#!/bin/sh -u
+
+CHILD_PID=''
+WATCH_DIR=$1; shift
+
+trap 'if [ -n ${CHILD_PID:-""} ]; then kill $CHILD_PID; fi' EXIT INT
+
+printf "WATCH %s\n" "$WATCH_DIR"
+while inotifywait --format 'EVENT %w%f %e' -q -r @./.git --exclude '.*(swp|log)$' -e modify -e move ${WATCH_DIR}; do
+    if [ -n ${CHILD_PID:-""} ]; then
+        kill $CHILD_PID
+    fi
+    sleep 1
+    printf "RUN %s\n" "$*"
+    "$@" &
+    CHILD_PID=$!
+done

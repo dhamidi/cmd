@@ -1,0 +1,3 @@
+#!/bin/sh -eu
+
+vagrant reload --no-provision

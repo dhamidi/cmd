@@ -1,0 +1,7 @@
+#!/bin/sh -eu
+
+case "$1" in
+        *.png|*.jpg|*.jpeg)
+                firefox "$1"
+                ;;
+esac

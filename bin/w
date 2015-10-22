@@ -1,0 +1,13 @@
+#!/bin/sh -u
+
+CHILD_PID=''
+
+trap 'if [ -n ${CHILD_PID:-""} ]; then kill $CHILD_PID; fi' EXIT INT
+
+while inotifywait -r @./.git --exclude '.*(swp|log)$' -e modify -e move .; do
+    sleep 1
+    printf "RUN %s\n" "$*"
+    "$@" &
+    CHILD_PID=$!
+    wait
+done

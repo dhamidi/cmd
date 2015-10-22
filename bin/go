@@ -1,0 +1,11 @@
+#!/bin/sh
+
+PROJECT_ROOT=$(git rev-parse --git-dir 2>/dev/null)
+PROJECT_ROOT=${PROJECT_ROOT%/.git}
+GOENV_FILE=${PROJECT_ROOT:=.}/.goenv
+
+if [ -e  $GOENV_FILE ]; then
+    . $GOENV_FILE
+fi
+
+exec $GOROOT/bin/go "$@"

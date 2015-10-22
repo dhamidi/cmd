@@ -1,0 +1,8 @@
+#!/bin/sh -eu
+
+screenshot_file_name() {
+        date +"$HOME/screenshots/%Y-%m-%d_%H-%M-%S.png"
+}
+
+sleep 1
+gnome-screenshot -a -f "$(screenshot_file_name)"
