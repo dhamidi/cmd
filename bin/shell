@@ -1,9 +1,2 @@
 #!/bin/sh
-
-exec env -i \
-  BASH_ENV=$HOME/cmd/shellrc \
-  DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS \
-  GPG_AGENT_INFO=$GPG_AGENT_INFO \
-  SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
-  SSH_ASKPASS=$SSH_ASKPASS \
-  /bin/bash --rcfile $HOME/cmd/shellrc "$@"
+exec /bin/bash --rcfile $HOME/cmd/shellrc "$@"

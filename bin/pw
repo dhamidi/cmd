@@ -4,7 +4,7 @@ PASSWORD_DIR=${PASSWORD_DIR:-$HOME/sync/password}
 
 case $1 in
 	list)
-		ls -1 $PASSWORD_DIR | sed 's!\.gpg.*$!!'
+		ls -1 $PASSWORD_DIR | sed 's!\.gpg.*$!!' | grep "${2:-.}"
 		;;
 	show)
 		PASSWORD_FILE=$PASSWORD_DIR/$2.gpg

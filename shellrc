@@ -19,10 +19,13 @@ TERM=screen-256color
 SHELL_RC_FILE=$CMD_REPO_DIR/shellrc
 SHELL=$CMD_BIN_DIR/shell
 
+if [ -d /usr/local/go ]; then
+    GOROOT=/usr/local/go
+    PATH=$GOROOT/bin:$PATH
+fi
 GOPATH=$HOME/code/go
-GOROOT=/usr/local/go
-DISPLAY=:0
-EDITOR='emacs -nw'
+DISPLAY=${DISPLAY:-:0}
+EDITOR="emacsclient -t -a ''"
 BROWSER=firefox
 PATH=$CMD_BIN_DIR:$HOME/local/bin:$GOPATH/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin/:/bin
 PS1='\t \u@\h \W[$(dirs -p | prompt-dirstack)] %\j $(git prompt) \n\$ '
@@ -99,9 +102,30 @@ harrow() {
 
         case $subproject in
                 */api)
-                        GOPATH=~/projects/harrow
+                        GOPATH=~/projects/harrow:~/projects/harrow/api/Godeps/_workspace
         esac
 
 	cd $subproject
 }
 alias hrw=harrow
+
+projectile() {
+        local subproject
+        if [ -n "$1" ]; then
+            subproject=~/projects/$1
+        else
+            subproject=$(printf "%s\n" ~/projects/* | tmenu -l 5)
+        fi
+
+	cd $subproject
+        if [ -e .projectile ]; then
+            (. ./.projectile; exec bash)
+        fi
+}
+alias p=projectile
+
+v() {
+        if [ -e ./venv/bin/activate ]; then
+          (source ./venv/bin/activate; exec bash)
+        fi
+}
